@@ -1,4 +1,5 @@
 package com.haagahelia.model;
+
 import javax.persistence.*;
 
 /*
@@ -19,22 +20,28 @@ From https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api/
 @Entity
 public class Book {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String title;
 	private String author;
 	private int year;
 	private String isbn;
 	private double price;
-	
-	public Book() {}
-	
+
+	@ManyToOne
+	@JoinColumn(name = "categoryid")
+	private Category category;
+
+	public Book() {
+	}
+
 	public Book(String title, String author, int year, String isbn, double price) {
+		super();
 		this.title = title;
-		this.author=author;
-		this.year=year;
-		this.isbn=isbn;
-		this.price=price;
+		this.author = author;
+		this.year = year;
+		this.isbn = isbn;
+		this.price = price;
 	}
 
 	public String getTitle() {
@@ -77,8 +84,21 @@ public class Book {
 		this.price = price;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "Book: " + isbn + " - " + title + ", " + author + ", published " + year + " (" + price + ")";
+		if (this.category != null) {
+			return "Book: " + category + " " + isbn + " - " + title + ", " + author + ", published " + year + " ("
+					+ price + ")";
+		} else {
+			return "Book: " + isbn + " - " + title + ", " + author + ", published " + year + " (" + price + ")";
+		}
 	}
 }

@@ -52,4 +52,12 @@ public class BookController {
 		repository.deleteById(bookId);
 		return "redirect:../booklist";
 	}
+	
+	//edit book
+	@GetMapping("/edit/{id}")
+	public String editBook(@PathVariable("id") Long bookId, Model model) {
+		model.addAttribute("student", repository.findById(bookId));
+		model.addAttribute("categories", crepo.findAll());
+		return "editBook";
+	}
 }
