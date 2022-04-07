@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.haagahelia.model.Book;
 import com.haagahelia.model.BookRepository;
+import com.haagahelia.model.CategoryRepository;
 
 @RestController
 public class BookController {
-
+	//front page
 	@GetMapping({"/", "/index"})
 	public String index() {
 		return "This is the index page";
@@ -20,16 +21,22 @@ public class BookController {
 
 	@Autowired
 	private BookRepository repository;
-
+	
+	@Autowired
+	private CategoryRepository crepo;
+	
+	//show all books
 	@GetMapping("bookList")
 	public String bookList(Model model) {
 		model.addAttribute("books", repository.findAll());
 		return "bookList";
 	}
 	
+	//add new book
 	@GetMapping("/add")
 	public String addBook(Model model) {
 		model.addAttribute("book",new Book());
+		model.addAttribute("categorys", crepo.findAll());
 		return "addBook";
 	}
 	
@@ -39,6 +46,7 @@ public class BookController {
 		return "redirect:booklist";
 	}
 	
+	//delete book
 	@GetMapping("/delete/{id}")
 	public String deleteBook(@PathVariable("id") Long bookId, Model model) {
 		repository.deleteById(bookId);
