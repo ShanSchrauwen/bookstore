@@ -1,11 +1,41 @@
 package com.haagahelia.model;
+import javax.persistence.*;
 
+/*
+ Issues faced
+ 
+ Entity did not work due to persistence not being imported.
+ Had to add javax.persistence manually to pom.xml
+ 
+ <dependency>
+    <groupId>javax.persistence</groupId>
+    <artifactId>javax.persistence-api</artifactId>
+    <version>2.2</version>
+</dependency>
+
+From https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api/2.2
+ */
+
+@Entity
 public class Book {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
 	private String title;
 	private String author;
 	private int year;
 	private String isbn;
 	private double price;
+	
+	public Book() {}
+	
+	public Book(String title, String author, int year, String isbn, double price) {
+		this.title = title;
+		this.author=author;
+		this.year=year;
+		this.isbn=isbn;
+		this.price=price;
+	}
 
 	public String getTitle() {
 		return title;
